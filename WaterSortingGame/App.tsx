@@ -8,7 +8,7 @@ import GameScreen from './screens/GameScreen';
 
 export type RootStackParamList = {
   GameOptions: undefined;
-  GameScreen: { difficulty: string };
+  GameScreen: { selectedOption: string };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

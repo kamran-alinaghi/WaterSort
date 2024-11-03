@@ -14,8 +14,8 @@ type Props = {
 };
 
 const GameOptionsScreen: React.FC<Props> = ({ navigation }) => {
-  const handleStartGame = (difficulty: string) => {
-    navigation.navigate('GameScreen', { difficulty });
+  const handleStartGame = (selection: string) => {
+    navigation.navigate('GameScreen', { selectedOption: selection });
   };
 
   return (

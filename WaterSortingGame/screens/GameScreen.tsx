@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../App';
+import { BackgroundStyles, TextStyles } from '../Styles/Styles';
 
 type GameScreenRouteProp = RouteProp<RootStackParamList, 'GameScreen'>;
 
@@ -10,12 +11,12 @@ type Props = {
 };
 
 const GameScreen: React.FC<Props> = ({ route }) => {
-  const { difficulty } = route.params;
+  const { selectedOption: selection } = route.params;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Difficulty: {difficulty}</Text>
-      <Text>Game content goes here...</Text>
+    <View style={BackgroundStyles.main}>
+      <Text style={TextStyles.title}>Selected: {selection}</Text>
+      <Text style={TextStyles.title}>Game content goes here...</Text>
     </View>
   );
 };
