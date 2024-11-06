@@ -5,10 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import GameOptionsScreen from './screens/GameOptionsScreen';
 import GameScreen from './screens/GameScreen';
+import { SelectionEnum } from './assets/Enums';
 
 export type RootStackParamList = {
   GameOptions: undefined;
-  GameScreen: { selectedOption: string };
+  GameScreen: { selectedOption: SelectionEnum };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

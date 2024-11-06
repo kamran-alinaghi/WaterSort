@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../App';
@@ -17,20 +17,17 @@ const GameScreen: React.FC<Props> = ({ route }) => {
   const { selectedOption: selection } = route.params;
 
   // Initial state for bottles
-  const [bottles, setBottles] = useState<BottleType[]>([
-    [0, 0, 1, 1],
-    [2, 2, 3, 3],
-    [1, 0, 3, 2],
-    [],
-    []
-  ]);
+  const [bottles, setBottles] = useState<BottleType[]>([[]]);
 
   const [selectedBottle, setSelectedBottle] = useState<number | null>(null);
 
+  useEffect(() => {
+    resetGame(setBottles, setSelectedBottle);
+  }, []);
 
   return (
     <View style={BackgroundStyles.main}>
-      <Text style={styles.title}>Selected Option: {selection}</Text>
+      <Text style={styles.title}>Selected Option: {selection.toString()}</Text>
 
       <View style={styles.bottlesContainer}>
         {bottles.map((layers, index) => (
@@ -55,6 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'white'
   },
   bottlesContainer: {
     flexDirection: 'row',
