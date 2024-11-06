@@ -1,5 +1,5 @@
 export enum SelectionEnum{
-    Continue,
+    //Continue,
     Easy,
     Medium,
     Hard

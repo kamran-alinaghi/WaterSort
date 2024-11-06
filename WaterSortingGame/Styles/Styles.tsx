@@ -20,12 +20,18 @@ export const ButtonStyles = StyleSheet.create({
 });
 
 export const BackgroundStyles = StyleSheet.create({
-  main:{
-   flex: 1,
-   alignItems: 'center',
-   justifyContent: 'center',
-   backgroundColor: '#000000',
-  } 
+  main: {
+    flex: 1,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    backgroundColor: '#000000',
+  },
+  mainMenu: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000000',
+  }
 });
 
 export const TextStyles = StyleSheet.create({

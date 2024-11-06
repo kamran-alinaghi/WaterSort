@@ -6,6 +6,7 @@ import Bottle from '../Components/Bottle';
 import { BottleType } from '../Components/Types';
 import { handleBottlePress, resetGame } from '../Components/GameLogic';
 import { BackgroundStyles } from '../Styles/Styles';
+import AnimatedBottle from '../Components/AnimatedBottle';
 
 type GameScreenRouteProp = RouteProp<RootStackParamList, 'GameScreen'>;
 type Props = {
@@ -22,25 +23,23 @@ const GameScreen: React.FC<Props> = ({ route }) => {
   const [selectedBottle, setSelectedBottle] = useState<number | null>(null);
 
   useEffect(() => {
-    resetGame(setBottles, setSelectedBottle);
+    resetGame(setBottles, setSelectedBottle, selection);
   }, []);
 
   return (
     <View style={BackgroundStyles.main}>
       <Text style={styles.title}>Selected Option: {selection.toString()}</Text>
 
-      <View style={styles.bottlesContainer}>
-        {bottles.map((layers, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => handleBottlePress(index, selectedBottle, setSelectedBottle, bottles, setBottles)}
-          >
-            <Bottle layers={layers} />
-          </TouchableOpacity>
-        ))}
-      </View>
+        {bottles.map((layerColors, index) => (
+          <Bottle bottleId={index} layers={layerColors} onTouch={(_id: number) => {
+            setSelectedBottle(handleBottlePress(_id, selectedBottle, bottles, setBottles))
+          }}
+          screenSize={null} difficulty={selection}>
 
-      <TouchableOpacity style={styles.resetButton} onPress={() => resetGame(setBottles, setSelectedBottle)}>
+          </Bottle>
+        ))}
+
+      <TouchableOpacity style={styles.resetButton} onPress={() => resetGame(setBottles, setSelectedBottle, selection)}>
         <Text style={styles.resetButtonText}>Reset Game</Text>
       </TouchableOpacity>
     </View>
@@ -53,12 +52,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: 'white'
-  },
-  bottlesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
   },
   resetButton: {
     marginTop: 20,

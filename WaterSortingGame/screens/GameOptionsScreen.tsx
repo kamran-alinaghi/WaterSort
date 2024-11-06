@@ -20,12 +20,12 @@ const GameOptionsScreen: React.FC<Props> = ({ navigation }) => {
   };
   
   return (
-    <View style={BackgroundStyles.main}>
-      <TouchableOpacity style={[ButtonStyles.continueButton]} onPress={() => handleStartGame(SelectionEnum.Continue)}>
+    <View style={BackgroundStyles.mainMenu}>
+      {/* <TouchableOpacity style={[ButtonStyles.continueButton]} onPress={() => handleStartGame(SelectionEnum.Continue)}>
         <Text style={[TextStyles.optionButtons, { fontSize: 26 }]}>Continue</Text>
       </TouchableOpacity>
 
-      <Text style={TextStyles.title}>Or New Game</Text>
+      <Text style={TextStyles.title}>Or New Game</Text> */}
 
 
       <TouchableOpacity style={ButtonStyles.optionButton} onPress={() => handleStartGame(SelectionEnum.Easy)}>
