@@ -55,7 +55,7 @@ export const checkWinCondition = (bottles: BottleType[]) => {
     }
 };
 
-export const resetGame = (setBottles: Function, setSelectedBottle: Function, selection: SelectionEnum, selectedBottle:number) => {
+export const resetGame = (setSelectedBottle: Function, selection: SelectionEnum, selectedBottle:number) => {
     SetRows(selection)
     let diff = 0;
     switch (selection) {
@@ -70,7 +70,7 @@ export const resetGame = (setBottles: Function, setSelectedBottle: Function, sel
             break;
     }
     let myBottles = GetInitialBottles(diff, selection, setSelectedBottle);
-    setBottles(myBottles);
+    //setBottles(myBottles);
     setSelectedBottle(selectedBottle);
 };
 
@@ -81,12 +81,7 @@ const GetInitialBottles = (bottleCount: number, selection: SelectionEnum, setSel
             selectedBottle: -1,
             layers: [0, 1, 2, 3],
             bottleId: i,
-            difficulty: selection,
-            onTouch: (_id: number, selectedBottle: number) => {
-                const t = handleBottlePress(_id, selectedBottle);
-                Alert.alert(t.toString());
-                setSelectedBottle(handleBottlePress(_id, selectedBottle));
-            }
+            difficulty: selection
         }
         BottleArray2.push(new Bottle(param));
     }

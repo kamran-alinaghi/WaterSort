@@ -11,14 +11,15 @@ const COLORS = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6'];
 const windowWidth = Dimensions.get('window').width;
 
 class Bottle extends React.Component<BottleProperties> {
+    otherSelectedButton:number=-1;
     IsSelected: boolean = false;
+    _id=this.props.bottleId;
     FirstPos = GetPos(this.props.bottleId, windowWidth, this.props.difficulty);
     Pos:Animated.ValueXY=new Animated.ValueXY({x:this.FirstPos.X,y:this.FirstPos.Y})
     PosX = new Animated.Value(this.FirstPos.X);
     PosY = new Animated.Value(this.FirstPos.Y);
     MoveUp = () => {
         let toVal = 0;
-        this.IsSelected=!this.IsSelected;
         if (this.IsSelected) { toVal = this.FirstPos.Y - 50;}
         else { toVal = this.FirstPos.Y; }
         Animated.timing(this.Pos, {
@@ -31,14 +32,21 @@ class Bottle extends React.Component<BottleProperties> {
     }
 
     PourWater=(nextBottleId:number)=>{
+        let result=true;
+        Alert.alert("from: " + this._id.toString() + " to: " + nextBottleId.toString());
+        return result;
+    }
+
+    SetSelectedBottle=(index:number)=>{
 
     }
 
     render(): React.ReactNode {
         return (
             <Animated.View style={{ position: 'absolute', left:this.Pos.x, top:this.Pos.y}}>
-                <TouchableOpacity onPress={(index) => {
-                    this.MoveUp();
+                <TouchableOpacity onPress={() => {
+                    this.SetSelectedBottle(this.props.bottleId);
+                    //this.MoveUp();
                 }}
                     style={[styles.bottle]}>
                     {this.props.layers.map((colorIndex, index) => (

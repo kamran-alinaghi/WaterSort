@@ -23,12 +23,9 @@ const GameScreen: React.FC<Props> = ({ route }) => {
   const { selectedOption: selection } = route.params;
   const [BottleArray,setBottleArray] = useState<Bottle[]>([]);
   
-  // Initial state for bottles
-  const [bottles, setBottles] = useState<BottleType[]>([[]]);
 
 
   useEffect(() => {
-    //resetGame(setBottleArray, setSelectedBottle, selection, selectedBottle);
     SetRows(selection)
     let diff = 0;
     switch (selection) {
@@ -45,7 +42,6 @@ const GameScreen: React.FC<Props> = ({ route }) => {
     
     let myBottles = GetInitialBottles();
     setBottleArray(myBottles);
-    //setSelectedBottle(-1);
 
     function SetRows(difficulty: SelectionEnum) {
       QtyRow1 = difficulty > 1 ? 7 : 4;
@@ -71,11 +67,39 @@ const GameScreen: React.FC<Props> = ({ route }) => {
     <View style={BackgroundStyles.main}>
       <Text style={styles.title}>Selected Option: {selection.toString()}</Text>
 
-        {BottleArray.map((index)=>{
-          return index.render();
+        {BottleArray.map((value, index, array)=>{
+          value.SetSelectedBottle = setSelectedBottle;
+          //value.otherSelectedButton=selectedBottle;
+          if (selectedBottle == index) {
+            //Alert.alert(value.otherSelectedButton.toString());
+            if (value.otherSelectedButton > -1) {
+              if (value.otherSelectedButton == selectedBottle) {
+                value.IsSelected = false;
+                value.MoveUp();
+                setSelectedBottle(-1);
+              }
+              else {
+                const isDone= array[value.otherSelectedButton].PourWater(index);
+                if (isDone) {
+                  array[value.otherSelectedButton].IsSelected = false;
+                  array[value.otherSelectedButton].MoveUp();
+                  setSelectedBottle(-1);
+                }
+              }
+            }
+            else {
+              //setSelectedBottle(index);
+              value.IsSelected = true;
+              value.MoveUp();
+            }
+          }
+          value.otherSelectedButton = selectedBottle;
+          
+          //value.MoveUp();
+          return value.render();
         })}
 
-      <TouchableOpacity style={styles.resetButton} onPress={() => resetGame(setBottles, setSelectedBottle, selection, selectedBottle)}>
+      <TouchableOpacity style={styles.resetButton} onPress={() => resetGame(setSelectedBottle, selection, selectedBottle)}>
         <Text style={styles.resetButtonText}>Reset Game</Text>
       </TouchableOpacity>
     </View>
