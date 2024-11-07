@@ -4,7 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../App';
 import Bottle from '../Components/Bottle';
 import { BottleType } from '../Components/Types';
-import { handleBottlePress, resetGame } from '../Components/GameLogic';
+import { handleBottlePress, resetGame, GetInitialBottles } from '../Components/GameLogic';
 import { BackgroundStyles } from '../Styles/Styles';
 import AnimatedBottle from '../Components/AnimatedBottle';
 import { BottleProperties } from '../Components/Types';
@@ -26,46 +26,13 @@ const GameScreen: React.FC<Props> = ({ route }) => {
 
 
   useEffect(() => {
-    SetRows(selection)
-    let diff = 0;
-    switch (selection) {
-        case SelectionEnum.Medium:
-            diff = 8;
-            break;
-        case SelectionEnum.Hard:
-            diff = 14;
-            break;
-        default:
-            diff = 6;
-            break;
-    }
-    
-    let myBottles = GetInitialBottles();
+    let myBottles = GetInitialBottles(selection);
     setBottleArray(myBottles);
-
-    function SetRows(difficulty: SelectionEnum) {
-      QtyRow1 = difficulty > 1 ? 7 : 4;
-      QtyRow2 = difficulty < 1 ? 2 : (difficulty < 2 ? 4 : 7);
-    }
-
-    function GetInitialBottles() {
-      let BottleArray2: Bottle[] = [];
-      for (let i = 0; i < diff; i++) {
-        const param: BottleProperties = {
-          selectedBottle: selectedBottle,
-          layers: [0, 1, 2, 3],
-          bottleId: i,
-          difficulty: selection
-        }
-        BottleArray2.push(new Bottle(param));
-      }
-      return BottleArray2;
-    }
   }, []);
 
   return (
     <View style={BackgroundStyles.main}>
-      <Text style={styles.title}>Selected Option: {selection.toString()}</Text>
+      {/* <Text style={styles.title}>Selected Option: {selection.toString()}</Text> */}
 
         {BottleArray.map((value, index, array)=>{
           value.SetSelectedBottle = setSelectedBottle;
@@ -99,7 +66,7 @@ const GameScreen: React.FC<Props> = ({ route }) => {
           return value.render();
         })}
 
-      <TouchableOpacity style={styles.resetButton} onPress={() => resetGame(setSelectedBottle, selection, selectedBottle)}>
+      <TouchableOpacity style={styles.resetButton} onPress={() => setBottleArray(GetInitialBottles(selection))}>
         <Text style={styles.resetButtonText}>Reset Game</Text>
       </TouchableOpacity>
     </View>

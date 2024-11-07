@@ -5,22 +5,25 @@ import { FillComplete } from './GameLogic';
 import { State } from 'react-native-gesture-handler';
 import { measure, useAnimatedRef } from 'react-native-reanimated';
 import { GetPos } from './GameLogic';
+import { COLORS } from './GeneralValues';
 
 // Define color mappings based on index
-const COLORS = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6'];
+
 const windowWidth = Dimensions.get('window').width;
+const bottleWidth = windowWidth * 0.1;
+const gap = windowWidth * 0.035;
 
 class Bottle extends React.Component<BottleProperties> {
     otherSelectedButton:number=-1;
     IsSelected: boolean = false;
     _id=this.props.bottleId;
-    FirstPos = GetPos(this.props.bottleId, windowWidth, this.props.difficulty);
+    FirstPos = GetPos(this.props.bottleId, windowWidth, this.props.difficulty, bottleWidth, gap, Dimensions.get('window').height);
     Pos:Animated.ValueXY=new Animated.ValueXY({x:this.FirstPos.X,y:this.FirstPos.Y})
     PosX = new Animated.Value(this.FirstPos.X);
     PosY = new Animated.Value(this.FirstPos.Y);
     MoveUp = () => {
         let toVal = 0;
-        if (this.IsSelected) { toVal = this.FirstPos.Y - 50;}
+        if (this.IsSelected) { toVal = this.FirstPos.Y - 30;}
         else { toVal = this.FirstPos.Y; }
         Animated.timing(this.Pos, {
             toValue:new Animated.ValueXY({
@@ -69,19 +72,19 @@ class Bottle extends React.Component<BottleProperties> {
 
 const styles = StyleSheet.create({
     bottle: {
-        width: 40,
-        height: 150,
+        width: bottleWidth,
+        height: bottleWidth*4.5,
         borderWidth: 2,
         borderColor: '#afafaf',
-        borderBottomRightRadius: 15,
-        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: bottleWidth*0.4,
+        borderBottomLeftRadius: bottleWidth*0.4,
         margin: 10,
         justifyContent: 'flex-end',
         overflow: 'hidden',
         backgroundColor: 'black',
     },
     waterLayer: {
-        height: 35, // Adjust height to fit 4 layers in the bottle
+        height: bottleWidth, // Adjust height to fit 4 layers in the bottle
     },
 });
 

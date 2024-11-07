@@ -5,7 +5,6 @@ export type BottleType = number[];
 export type BottleProperties={
     layers:number[],
     bottleId:number,
-    //onTouch:Function,
     difficulty:SelectionEnum,
     selectedBottle:number
 }

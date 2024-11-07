@@ -69,23 +69,42 @@ export const resetGame = (setSelectedBottle: Function, selection: SelectionEnum,
             diff = 6;
             break;
     }
-    let myBottles = GetInitialBottles(diff, selection, setSelectedBottle);
+    let myBottles = GetInitialBottles(selection);
     //setBottles(myBottles);
     setSelectedBottle(selectedBottle);
 };
 
-const GetInitialBottles = (bottleCount: number, selection: SelectionEnum, setSelectedBottle: Function) => {
-    let BottleArray2: Bottle[] = [];
-    for (let i = 0; i < bottleCount; i++) {
-        const param: BottleProperties = {
-            selectedBottle: -1,
-            layers: [0, 1, 2, 3],
-            bottleId: i,
-            difficulty: selection
-        }
-        BottleArray2.push(new Bottle(param));
+export const GetInitialBottles = (selection: SelectionEnum) => {
+    let BottleColors:BottleType[]=[
+        [0,7,11,2],
+        [4,10,1,8],
+        [5,9,6,3],
+        [0,0,0,0],
+        [3,3,3,3],[],[],[],[],[],[],[],[],[]
+    ];
+    let diff = 0;
+    switch (selection) {
+        case SelectionEnum.Medium:
+            diff = 8;
+            break;
+        case SelectionEnum.Hard:
+            diff = 14;
+            break;
+        default:
+            diff = 6;
+            break;
     }
-    return BottleArray2;
+    let BottleArray: Bottle[] = [];
+      for (let i = 0; i < diff; i++) {
+        const param: BottleProperties = {
+          selectedBottle: -1,
+          layers: BottleColors[i],
+          bottleId: i,
+          difficulty: selection
+        }
+        BottleArray.push(new Bottle(param));
+      }
+      return BottleArray;
 }
 
 function SetRows(difficulty: SelectionEnum) {
@@ -94,20 +113,18 @@ function SetRows(difficulty: SelectionEnum) {
     //console.log(isNaN( difficulty));
 }
 
-export const GetPos = (index: number, screenWidth: number, difficulty: SelectionEnum) => {
+export const GetPos = (index: number, screenWidth: number, difficulty: SelectionEnum, bottleWidth:number, gap:number, screenHeight:number) => {
     SetRows(difficulty);
     let result: Point;
-    const tempWidth = 40;
     result = { X: 0, Y: 0 };
-    const gap = 15;
-    const side1 = (screenWidth - ((tempWidth + gap) * QtyRow1)) / 2;
-    const side2 = (screenWidth - ((tempWidth + gap) * QtyRow2)) / 2;
+    const side1 = (screenWidth - ((bottleWidth + gap) * QtyRow1)) / 2;
+    const side2 = (screenWidth - ((bottleWidth + gap) * QtyRow2)) / 2;
 
     if (index < QtyRow1) {
-        result = { X: side1 + index * (tempWidth + gap), Y: 200 };
+        result = { X: side1 + index * (bottleWidth + gap), Y: screenHeight*0.15 };
     }
     else {
-        result = { X: side2 + (index - QtyRow1) * (tempWidth + gap), Y: 500 };
+        result = { X: side2 + (index - QtyRow1) * (bottleWidth + gap), Y: screenHeight*0.5 };
     }
 
     return result;
