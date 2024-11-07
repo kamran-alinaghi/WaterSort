@@ -15,27 +15,12 @@ const AnimatedBottle: React.FC<BottleProperties> = ({ bottleId, layers, onTouch,
     const QtyRow2 = difficulty > 0 ? (difficulty < 2 ? 2 : (difficulty < 3 ? 4 : 7)) : 2;
     const [xPosition, SetX] = useState<number>(0);
     const [yPosition, SetY] = useState<number>(0);
-    // Animated values for each layer
-    const animations = useRef(layers.map(() => new Animated.Value(0))).current;
-
-    useEffect(() => {
-        // Trigger the animation when layers change
-        animations.forEach((anim, index) => {
-            Animated.timing(anim, {
-                toValue: 1,
-                duration: 500,
-                useNativeDriver: false,
-            }).start();
-        });
-    }, [layers]);
 
     const MoveUp = () => {
         //measure()
     }
     return (
         <TouchableOpacity onPress={() => {
-            //Alert.alert(QtyEachRow.toString());
-            MoveUp();
             onTouch(Id);
             if(FillComplete(layers)){Alert.alert("Complete!");}
         }
@@ -44,13 +29,7 @@ const AnimatedBottle: React.FC<BottleProperties> = ({ bottleId, layers, onTouch,
                 {layers.map((colorIndex, index) => (
                     <Animated.View
                         key={index}
-                        style={[
-                            styles.waterLayer,
-                            {
-                                backgroundColor: COLORS[colorIndex],
-                                opacity: animations[index], // Apply animation effect
-                            },
-                        ]}
+                        style={[styles.waterLayer, { backgroundColor: COLORS[colorIndex] },]}
                     />
                 ))}
             </View>

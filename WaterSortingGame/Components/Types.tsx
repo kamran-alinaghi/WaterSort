@@ -5,11 +5,16 @@ export type BottleType = number[];
 export type BottleProperties={
     layers:number[],
     bottleId:number,
-    onTouch:Function,
-    screenSize:number | null,
-    difficulty:SelectionEnum
+    //onTouch:Function,
+    difficulty:SelectionEnum,
+    selectedBottle:number
 }
 export type Point={
     X:number,
     Y:number
+}
+
+export type AnimateToPoint={
+    X:Animated.Value,
+    Y:Animated.Value
 }

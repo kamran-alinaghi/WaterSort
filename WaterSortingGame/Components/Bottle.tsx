@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Animated, TouchableOpacity, Alert, Dimensions } from 'react-native';
-import { BottleProperties, Point } from './Types';
+import { BottleProperties, AnimateToPoint } from './Types';
 import { FillComplete } from './GameLogic';
 import { State } from 'react-native-gesture-handler';
 import { measure, useAnimatedRef } from 'react-native-reanimated';
@@ -13,26 +13,32 @@ const windowWidth = Dimensions.get('window').width;
 class Bottle extends React.Component<BottleProperties> {
     IsSelected: boolean = false;
     FirstPos = GetPos(this.props.bottleId, windowWidth, this.props.difficulty);
+    Pos:Animated.ValueXY=new Animated.ValueXY({x:this.FirstPos.X,y:this.FirstPos.Y})
     PosX = new Animated.Value(this.FirstPos.X);
     PosY = new Animated.Value(this.FirstPos.Y);
     MoveUp = () => {
         let toVal = 0;
-        if (this.IsSelected) { toVal = this.FirstPos.Y - 50; }
-        else { toVal = this.FirstPos.Y;; }
-        Animated.timing(this.PosY, {
-            toValue: new Animated.Value(toVal),
+        this.IsSelected=!this.IsSelected;
+        if (this.IsSelected) { toVal = this.FirstPos.Y - 50;}
+        else { toVal = this.FirstPos.Y; }
+        Animated.timing(this.Pos, {
+            toValue:new Animated.ValueXY({
+                x: this.FirstPos.X,
+                y: toVal
+            }),
             useNativeDriver: false
         }).start();
     }
 
+    PourWater=(nextBottleId:number)=>{
+
+    }
+
     render(): React.ReactNode {
         return (
-            <Animated.View style={{ position: 'absolute', left:this.PosX, top:this.PosY}}>
-                <TouchableOpacity onPress={() => {
-                    this.IsSelected=!this.IsSelected;
+            <Animated.View style={{ position: 'absolute', left:this.Pos.x, top:this.Pos.y}}>
+                <TouchableOpacity onPress={(index) => {
                     this.MoveUp();
-                    this.props.onTouch(this.props.bottleId);
-                    if (FillComplete(this.props.layers)) { Alert.alert("Complete!"); }
                 }}
                     style={[styles.bottle]}>
                     {this.props.layers.map((colorIndex, index) => (
