@@ -100,9 +100,11 @@ export const GetInitialBottles = (selection: SelectionEnum) => {
           selectedBottle: -1,
           layers: BottleColors[i],
           bottleId: i,
-          difficulty: selection
+          difficulty: selection,
+          key:i
         }
-        BottleArray.push(new Bottle(param));
+        const b=new Bottle(param);
+        BottleArray.push(b);
       }
       return BottleArray;
 }

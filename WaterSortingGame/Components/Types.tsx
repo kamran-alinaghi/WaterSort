@@ -6,7 +6,8 @@ export type BottleProperties={
     layers:number[],
     bottleId:number,
     difficulty:SelectionEnum,
-    selectedBottle:number
+    selectedBottle:number,
+    key:number
 }
 export type Point={
     X:number,
