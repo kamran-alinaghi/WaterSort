@@ -40,7 +40,7 @@ export const GetAnimationList = (obj: Bottle, nextBottleId: number) => {
         TimingAnime(obj.Angle, 40),
         // 4 next bottle and turn
         Animated.parallel([
-            TimingAnime(obj.Pos, newPos.X - 30, newPos.Y - 100, time),
+            TimingAnime(obj.Pos, newPos.X - 20, newPos.Y - 35, time),
             TimingAnime(obj.Angle, definedAngle, null, time),
             TimingAnime(obj.Top, bottleWidth, null, time),
             TimingAnime(obj.Bottom, 58 - bottleWidth, null, time)

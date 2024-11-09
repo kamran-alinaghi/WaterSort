@@ -47,6 +47,7 @@ class Bottle extends React.Component<BottleProperties> {
         return (
             <Animated.View key={this.props.bottleId} style={[{
                 position: 'absolute', left: this.Pos.x, top: this.Pos.y,
+                zIndex:this.IsSelected?10:0,
                 transform: [{
                     rotate: this.Angle.interpolate({
                         inputRange: [0, 360],
